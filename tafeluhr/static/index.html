@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tafeluhr</title>
+<style>
+  :root { --bg:#121417; --panel:#1b1e23; --line:#2c3138; --text:#e7e9ec; --dim:#8b939e;
+          --ok:#3ecf74; --warn:#f0b43c; --bad:#ef5a5a; --acc:#5aa9ef; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:14px/1.45 system-ui, sans-serif; }
+  header { display:flex; flex-wrap:wrap; gap:16px; align-items:center; padding:12px 16px;
+           background:var(--panel); border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; }
+  #clock { font:700 44px/1 ui-monospace, "DejaVu Sans Mono", monospace; letter-spacing:2px; min-width:150px; }
+  .badge { padding:3px 9px; border-radius:99px; font-size:12px; font-weight:600; background:var(--line); }
+  .ok { background:#1d4f32; color:#9ff0c0; } .warn { background:#5a4513; color:#ffd88a; } .bad { background:#5a1f1f; color:#ffb0b0; }
+  .meta { color:var(--dim); font-size:12px; font-family:ui-monospace, monospace; }
+  main { padding:16px; display:grid; gap:16px; max-width:1400px; margin:0 auto; }
+  section { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px; }
+  h2 { margin:0 0 10px; font-size:15px; } h2 span { color:var(--dim); font-weight:400; font-size:13px; }
+  .toolbar { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; align-items:center; }
+  button, select { background:#262b32; color:var(--text); border:1px solid var(--line); border-radius:6px; padding:6px 12px; font:inherit; cursor:pointer; }
+  button:hover { border-color:var(--acc); } button.primary { background:#1f3d5c; border-color:#2d5a86; }
+  #stage { position:relative; width:100%; user-select:none; touch-action:none; background:#000; border-radius:6px; overflow:hidden; }
+  #snap { display:block; width:100%; height:auto; }
+  #ov { position:absolute; inset:0; width:100%; height:100%; cursor:crosshair; }
+  #debug { width:100%; image-rendering:pixelated; border-radius:6px; background:#000; display:block; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:10px 18px; }
+  label { display:grid; grid-template-columns:1fr auto; gap:2px 10px; font-size:13px; }
+  label input[type=range] { grid-column:1 / -1; width:100%; }
+  label output { color:var(--acc); font-family:ui-monospace, monospace; }
+  .hint { color:var(--dim); font-size:12.5px; margin:6px 0 0; }
+  code { background:#262b32; padding:1px 5px; border-radius:4px; }
+  ul.api { margin:0; padding-left:18px; } ul.api li { margin:2px 0; }
+</style>
+</head>
+<body>
+<header>
+  <div id="clock">--:--</div>
+  <span id="run" class="badge">–</span>
+  <span id="src" class="badge">–</span>
+  <span id="conn" class="badge">–</span>
+  <span class="meta" id="meta"></span>
+</header>
+<main>
+  <section>
+    <h2>1. Uhrbereich markieren <span>– Rechteck um die 4 Uhrziffern ziehen (ohne Tore, lieber etwas zu groß), dann „Automatisch ausrichten“.</span></h2>
+    <div class="toolbar">
+      <button id="bFull">Ganzes Bild</button>
+      <button id="bZoom" class="primary">Auf Uhr zoomen</button>
+      <button id="bNew">Neu aufziehen</button>
+      <button id="bFit" class="primary">Automatisch ausrichten</button>
+      <span class="meta" id="fitinfo"></span>
+      <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="pause"> Bild anhalten</label>
+      <span class="meta" id="frameinfo"></span>
+    </div>
+    <div id="stage"><img id="snap" alt=""><svg id="ov"></svg></div>
+    <p class="hint">Leeres Bild: Rechteck aufziehen. Danach Ecken ziehen; Ziehen innerhalb verschiebt das Viereck.
+      Automatisch ausrichten braucht ca. 15–25 s und funktioniert am besten, wenn die Uhr läuft (verschiedene Sekundenziffern).
+      Stark kursive Ziffern: obere Ecken nach rechts schieben, bis die Ziffern im Debug-Bild senkrecht stehen.</p>
+  </section>
+
+  <section>
+    <h2>2. Ziffern ausrichten <span>– grüne Kästen = Segment an, rote = aus</span></h2>
+    <img id="debug" alt="">
+    <div class="grid" style="margin-top:12px">
+      <label>Ziffernbreite <output id="o_digit_w"></output><input type="range" id="digit_w" min="0.08" max="0.3" step="0.002"></label>
+      <label>Segmentdicke <output id="o_thick"></output><input type="range" id="thick" min="0.1" max="0.45" step="0.005"></label>
+      <label>Ziffer 1 Position <output id="o_dx0"></output><input type="range" id="dx0" min="-0.05" max="1" step="0.002"></label>
+      <label>Ziffer 2 Position <output id="o_dx1"></output><input type="range" id="dx1" min="-0.05" max="1" step="0.002"></label>
+      <label>Ziffer 3 Position <output id="o_dx2"></output><input type="range" id="dx2" min="-0.05" max="1" step="0.002"></label>
+      <label>Ziffer 4 Position <output id="o_dx3"></output><input type="range" id="dx3" min="-0.05" max="1" step="0.002"></label>
+      <label>Oberkante Ziffern <output id="o_y_top"></output><input type="range" id="y_top" min="-0.08" max="0.4" step="0.005"></label>
+      <label>Unterkante Ziffern <output id="o_y_bot"></output><input type="range" id="y_bot" min="0.6" max="1.08" step="0.005"></label>
+      <label>Doppelpunkt-Lücke (für „gleichmäßig“) <output id="o_colon_w"></output><input type="range" id="colon_w" min="0" max="0.3" step="0.005"></label>
+    </div>
+    <div class="toolbar" style="margin-top:10px"><button id="bEven">Gleichmäßig verteilen</button></div>
+  </section>
+
+  <section>
+    <h2>3. Feintuning</h2>
+    <div class="grid">
+      <label>Farbmodus <output></output>
+        <select id="color_mode" style="grid-column:1/-1"><option value="red">Rot (Standard, filtert Netz)</option><option value="luma">Helligkeit</option></select></label>
+      <label>Mindestkontrast <output id="o_min_contrast"></output><input type="range" id="min_contrast" min="5" max="80" step="1"></label>
+      <label>Bestätigung +1 s (ms) <output id="o_stable_ms"></output><input type="range" id="stable_ms" min="0" max="600" step="10"></label>
+      <label>Bestätigung Sprung/Reset (ms) <output id="o_correct_ms"></output><input type="range" id="correct_ms" min="300" max="4000" step="50"></label>
+      <label>„Uhr steht“ nach (ms) <output id="o_stop_ms"></output><input type="range" id="stop_ms" min="1100" max="4000" step="50"></label>
+      <label>Max. Vorhersage ohne Lesung (s) <output id="o_coast_s"></output><input type="range" id="coast_s" min="2" max="120" step="1"></label>
+    </div>
+    <div class="toolbar" style="margin-top:10px"><button id="bReset">Uhr-Tracker zurücksetzen</button></div>
+  </section>
+
+  <section>
+    <h2>Schnittstellen</h2>
+    <ul class="api">
+      <li><code>GET /api/state</code> – JSON: time, seconds, running, source (board | predicted | stale), raw, confidence</li>
+      <li><code>GET /api/time.txt</code> – nur „MM:SS“ (z. B. für vMix/OBS-Textquelle)</li>
+      <li><code>WS /ws</code> – JSON-Push bei jeder Änderung, sonst alle 0,5 s</li>
+    </ul>
+  </section>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+let cfg = null, frameSize = null, view = null, zoomMode = false, dragging = null;
+const snap = $('snap'), ov = $('ov'), stage = $('stage');
+
+async function loadConfig() {
+  cfg = await (await fetch('/api/config')).json();
+  frameSize = cfg.frame_size;
+  syncControls();
+}
+function syncControls() {
+  const dx = cfg.digit_x || cfg.digit_x_effective || [0,0.25,0.55,0.8];
+  const set = (id, v, fmt=x=>x) => { $(id).value = v; const o=$('o_'+id); if (o) o.textContent = fmt(v); };
+  set('digit_w', cfg.digit_w, v=>(+v).toFixed(3)); set('thick', cfg.thick, v=>(+v).toFixed(3));
+  set('colon_w', cfg.colon_w, v=>(+v).toFixed(3)); set('min_contrast', cfg.min_contrast);
+  set('y_top', cfg.y_top, v=>(+v).toFixed(3)); set('y_bot', cfg.y_bot, v=>(+v).toFixed(3));
+  set('stable_ms', cfg.stable_ms); set('correct_ms', cfg.correct_ms); set('stop_ms', cfg.stop_ms);
+  set('coast_s', Math.round(cfg.coast_ms/1000));
+  dx.forEach((v,i)=>set('dx'+i, v, v=>(+v).toFixed(3)));
+  $('color_mode').value = cfg.color_mode;
+}
+let postTimer = null, pending = {};
+function post(patch, immediate=false) {
+  Object.assign(pending, patch); Object.assign(cfg, patch);
+  clearTimeout(postTimer);
+  postTimer = setTimeout(async () => {
+    const body = pending; pending = {};
+    await fetch('/api/config', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+  }, immediate ? 0 : 150);
+}
+// Slider
+['digit_w','thick','colon_w','y_top','y_bot','min_contrast','stable_ms','correct_ms','stop_ms'].forEach(id => {
+  $(id).addEventListener('input', e => {
+    const v = parseFloat(e.target.value); const o=$('o_'+id);
+    if (o) o.textContent = Number.isInteger(v) ? v : v.toFixed(3);
+    post({[id]: v});
+  });
+});
+$('coast_s').addEventListener('input', e => { $('o_coast_s').textContent = e.target.value; post({coast_ms: e.target.value*1000}); });
+[0,1,2,3].forEach(i => $('dx'+i).addEventListener('input', () => {
+  const dx = [0,1,2,3].map(j => parseFloat($('dx'+j).value));
+  $('o_dx'+i).textContent = dx[i].toFixed(3);
+  post({digit_x: dx});
+}));
+$('color_mode').addEventListener('change', e => post({color_mode: e.target.value}, true));
+$('bEven').onclick = async () => { post({digit_x: null}, true); setTimeout(loadConfig, 300); };
+$('bReset').onclick = () => post({reset_clock: true}, true);
+$('bFit').onclick = async () => {
+  const fi = $('fitinfo');
+  const r = await fetch('/api/autofit', {method:'POST'}); const d = await r.json();
+  if (!d.ok) { fi.textContent = d.error || 'läuft bereits'; return; }
+  $('bFit').disabled = true; let n = 0;
+  const poll = setInterval(async () => {
+    const st = await (await fetch('/api/autofit')).json(); n++;
+    if (st.running) { fi.textContent = `sucht … ${n}s`; return; }
+    clearInterval(poll); $('bFit').disabled = false;
+    if (st.error) { fi.textContent = '⚠ ' + st.error; return; }
+    const i = st.info;
+    fi.textContent = `fertig: ${i.valid_frames}/${i.frames} Testbilder gelesen (${i.seconds}s)`;
+    await loadConfig(); drawOverlay();
+  }, 1000);
+};
+
+// ---- Snapshot + Viereck ----
+function viewRect() {
+  if (!frameSize) return {x:0,y:0,w:1,h:1};
+  if (zoomMode && cfg && cfg.quad) {
+    const xs = cfg.quad.map(p=>p[0]), ys = cfg.quad.map(p=>p[1]);
+    let x0=Math.min(...xs), x1=Math.max(...xs), y0=Math.min(...ys), y1=Math.max(...ys);
+    const mx=(x1-x0)*0.35+20, my=(y1-y0)*0.6+20;
+    x0=Math.max(0,x0-mx); y0=Math.max(0,y0-my); x1=Math.min(frameSize[0],x1+mx); y1=Math.min(frameSize[1],y1+my);
+    return {x:Math.round(x0), y:Math.round(y0), w:Math.round(x1-x0), h:Math.round(y1-y0)};
+  }
+  return {x:0, y:0, w:frameSize[0], h:frameSize[1]};
+}
+function refreshSnap() {
+  if ($('pause').checked || dragging) return;
+  if (!frameSize) { loadConfig(); }
+  view = viewRect();
+  const q = zoomMode ? `?x=${view.x}&y=${view.y}&w=${view.w}&h=${view.h}` : '';
+  const img = new Image();
+  img.onload = () => { snap.src = img.src; drawOverlay(); };
+  img.src = '/snapshot.jpg' + q + (q ? '&' : '?') + 't=' + Date.now();
+  $('frameinfo').textContent = frameSize ? `Bild ${frameSize[0]}×${frameSize[1]}` + (zoomMode ? ` · Ausschnitt ${view.w}×${view.h}` : '') : '';
+}
+function toImg(ev) {
+  const r = ov.getBoundingClientRect();
+  return [view.x + (ev.clientX - r.left) * view.w / r.width, view.y + (ev.clientY - r.top) * view.h / r.height];
+}
+function toScreen(p) {
+  const r = ov.getBoundingClientRect();
+  return [(p[0]-view.x) * r.width / view.w, (p[1]-view.y) * r.height / view.h];
+}
+function drawOverlay() {
+  const r = ov.getBoundingClientRect();
+  ov.setAttribute('viewBox', `0 0 ${r.width} ${r.height}`);
+  if (!cfg || !cfg.quad || !view) { ov.innerHTML = ''; return; }
+  const pts = cfg.quad.map(toScreen);
+  let s = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="rgba(90,169,239,0.12)" stroke="#5aa9ef" stroke-width="2"/>`;
+  // Ziffernkästen (bilinear im Viereck)
+  const dx = cfg.digit_x || cfg.digit_x_effective || [];
+  const lerp=(a,b,t)=>[a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t];
+  const yt = cfg.y_top ?? 0, yb = cfg.y_bot ?? 1;
+  const at = (u, v) => lerp(lerp(pts[0], pts[1], u), lerp(pts[3], pts[2], u), v);
+  dx.forEach(x => {
+    const c = [at(x, yt), at(x + cfg.digit_w, yt), at(x + cfg.digit_w, yb), at(x, yb)];
+    s += `<polygon points="${c.map(p=>p.join(',')).join(' ')}" fill="none" stroke="#f0b43c" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  });
+  ['OL','OR','UR','UL'].forEach((n,i) => {
+    s += `<circle cx="${pts[i][0]}" cy="${pts[i][1]}" r="9" fill="rgba(0,0,0,0.4)" stroke="#fff" stroke-width="2"/>`;
+  });
+  ov.innerHTML = s;
+}
+ov.addEventListener('pointerdown', ev => {
+  if (!view) return;
+  ov.setPointerCapture(ev.pointerId);
+  const p = toImg(ev);
+  if (cfg.quad) {
+    const r = ov.getBoundingClientRect(); const sc = view.w / r.width;
+    let best=-1, bd=1e9;
+    cfg.quad.forEach((q,i)=>{ const d=Math.hypot(q[0]-p[0], q[1]-p[1]); if (d<bd){bd=d;best=i;} });
+    if (bd < 18*sc) { dragging = {type:'corner', i:best}; return; }
+    if (pointInPoly(p, cfg.quad)) { dragging = {type:'move', start:p, orig:cfg.quad.map(q=>[...q])}; return; }
+  }
+  dragging = {type:'new', start:p};
+  cfg.quad = [p,[...p],[...p],[...p]];
+});
+ov.addEventListener('pointermove', ev => {
+  if (!dragging) return;
+  const p = toImg(ev);
+  if (dragging.type==='corner') cfg.quad[dragging.i] = p;
+  else if (dragging.type==='move') { const dx=p[0]-dragging.start[0], dy=p[1]-dragging.start[1];
+    cfg.quad = dragging.orig.map(q=>[q[0]+dx, q[1]+dy]); }
+  else { const s=dragging.start; cfg.quad=[[s[0],s[1]],[p[0],s[1]],[p[0],p[1]],[s[0],p[1]]]; }
+  drawOverlay();
+});
+ov.addEventListener('pointerup', () => {
+  if (!dragging) return;
+  const q = cfg.quad; dragging = null;
+  // Reihenfolge sicherstellen: OL, OR, UR, UL
+  const xs=q.map(p=>p[0]), ys=q.map(p=>p[1]);
+  if (Math.max(...xs)-Math.min(...xs) < 8 || Math.max(...ys)-Math.min(...ys) < 4) { cfg.quad=null; drawOverlay(); return; }
+  cfg.quad = orderQuad(q).map(p=>[Math.round(p[0]*10)/10, Math.round(p[1]*10)/10]);
+  post({quad: cfg.quad}, true); drawOverlay();
+});
+function orderQuad(q) {
+  const s = [...q].sort((a,b)=>a[1]-b[1]);
+  const top = s.slice(0,2).sort((a,b)=>a[0]-b[0]), bot = s.slice(2).sort((a,b)=>a[0]-b[0]);
+  return [top[0], top[1], bot[1], bot[0]];
+}
+function pointInPoly(p, poly) {
+  let c=false; for (let i=0,j=poly.length-1;i<poly.length;j=i++){
+    const a=poly[i], b=poly[j];
+    if (((a[1]>p[1])!==(b[1]>p[1])) && (p[0] < (b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0])) c=!c; }
+  return c;
+}
+$('bFull').onclick = () => { zoomMode=false; refreshSnap(); };
+$('bZoom').onclick = () => { if (cfg && cfg.quad) { zoomMode=true; refreshSnap(); } };
+$('bNew').onclick = () => { cfg.quad=null; zoomMode=false; post({quad:null}, true); refreshSnap(); };
+window.addEventListener('resize', drawOverlay);
+
+// ---- Debug-Bild ----
+function refreshDebug() {
+  const img = new Image(); img.onload = () => { $('debug').src = img.src; };
+  img.src = '/debug.jpg?t=' + Date.now();
+}
+
+// ---- Status per WebSocket ----
+function connectWS() {
+  const ws = new WebSocket((location.protocol==='https:'?'wss://':'ws://') + location.host + '/ws');
+  ws.onmessage = e => {
+    const d = JSON.parse(e.data);
+    $('clock').textContent = d.time || '--:--';
+    const run = $('run'); run.textContent = d.running ? 'läuft' : 'steht'; run.className = 'badge ' + (d.running ? 'ok' : '');
+    const src = $('src'); src.textContent = {board:'Tafel gelesen', predicted:'Vorhersage', stale:'veraltet', none:'keine Lesung'}[d.source] || d.source;
+    src.className = 'badge ' + ({board:'ok', predicted:'warn', stale:'bad', none:'bad'}[d.source] || '');
+    const c = $('conn'); c.textContent = d.source_connected ? 'Stream verbunden' : 'Stream getrennt';
+    c.className = 'badge ' + (d.source_connected ? 'ok' : 'bad');
+    $('meta').textContent = `roh ${d.raw || '–'} · conf ${d.confidence} · ${d.fps} fps · ${d.proc_ms} ms/Frame` + (d.source_error && !d.source_connected ? ' · ' + d.source_error : '');
+  };
+  ws.onclose = () => setTimeout(connectWS, 1000);
+}
+
+loadConfig().then(() => { zoomMode = !!(cfg && cfg.quad); refreshSnap(); });
+setInterval(refreshSnap, 1000);
+setInterval(refreshDebug, 500);
+connectWS();
+</script>
+</body>
+</html>

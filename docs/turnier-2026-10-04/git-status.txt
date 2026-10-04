@@ -1,0 +1,14 @@
+ M README.md
+ M tafeluhr/app.py
+ M tafeluhr/autofit.py
+ M tafeluhr/decoder.py
+ M tafeluhr/static/index.html
+ M tafeluhr/tracker.py
+?? docs/
+?? tafeluhr.json
+?? tafeluhr/alignment.py
+?? tools/eval_live.py
+?? tools/test_alignment.py
+?? tools/test_red_tracking.py
+?? tools/test_segment_ui.cjs
+?? tools/test_segments.py

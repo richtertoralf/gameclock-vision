@@ -1,0 +1,8 @@
+{
+  "utc": "2026-10-04T12:22:06.354756+00:00",
+  "processes": {
+    "3520": "/home/tori/src/tafeluhr/.venv/bin/python -B -u -c import logging; from tafeluhr.source import Recorder; logging.basicConfig(level=logging.INFO, format=\"%(asctime)s %(levelname)s %(message)s\"); Recorder(\"rtsp://192.168.95.18:8554/tafeluhr\", \"aufnahmen\").run() "
+  },
+  "children": {},
+  "remaining": []
+}

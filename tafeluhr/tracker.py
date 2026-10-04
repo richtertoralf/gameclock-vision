@@ -76,7 +76,6 @@ class ClockTracker:
         self.last_raw = f"{text[:2]}:{text[2:]}" if text else None
         if text is not None:
             v = to_seconds(text)
-            self.last_valid_t = t
             self.last_conf = confidence
             self.last_read_t = t
             # Leseserie: Einzelne abweichende Frames (auch mehrere verschiedene)
@@ -102,6 +101,8 @@ class ClockTracker:
                     self.short.append((v, self.run_t0))
                     del self.short[:-6]
                 self._consider(t, v, dur)
+                if v == self.observed and dur >= self.stable:
+                    self.last_valid_t = t
                 if (self.running and self.observed is not None and v == self.observed
                         and t - self.observed_since >= self.stop):
                     self.running = False
@@ -113,16 +114,19 @@ class ClockTracker:
         self.anchor_v, self.anchor_t = v, since
 
     def _consider(self, t: float, v: int, dur: float):
-        if v == self.observed or not self.short or self.short[-1][0] != v:
+        if dur < self.stable or v == self.observed or not self.short or self.short[-1][0] != v:
             return
         since = self.short[-1][1]
         if self.observed is not None and v == self.observed + 1:
             self._accept(v, since, True)
             return
-        # Saubere Sekundenfolge: vorheriger kurz-stabiler Wert war v-1, ~1 s davor
+        # Bestätigte laufende Folge, auch bei 1–2 verdeckten Sekunden.
+        # Gilt unabhängig vom bisherigen Wert: korrigiert auch rückwärts,
+        # ohne dass eine laufende Uhr correct_ms auf demselben Wert stehen muss.
         if len(self.short) >= 2:
             pv, pt = self.short[-2]
-            if pv == v - 1 and 0.6 <= since - pt <= 1.6:
+            step = v - pv
+            if 1 <= step <= 3 and step - 0.4 <= since - pt <= step + 0.6:
                 self._accept(v, since, True)
                 return
         if dur >= self.correct:
@@ -161,6 +165,8 @@ class ClockTracker:
             st.source = "stale"
         elif not fresh:
             st.source = "predicted"
-        else:
+        elif current == self.observed:
             st.source = "board"
+        else:
+            st.source = "predicted"
         return st

@@ -1,0 +1,1 @@
+{"quad": [[570.9, 408.7], [1530.1, 365.7], [1516.0, 664.0], [558.0, 704.0]], "auto_follow": true, "digit_w": 0.18, "colon_w": 0.15, "digit_x": [0.0, 0.235, 0.565, 0.8], "segment_overrides": null, "thick": 0.15, "y_top": -0.05, "y_bot": 1.0, "color_mode": "red", "min_contrast": 20.0, "stable_ms": 150, "correct_ms": 1200, "stop_ms": 1600, "coast_ms": 30000}

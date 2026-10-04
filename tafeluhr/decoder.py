@@ -50,11 +50,13 @@ class Config:
     # Viereck um die 4 Ziffern (Bildkoordinaten): oben-links, oben-rechts,
     # unten-rechts, unten-links. Bei kursiven Ziffern Ecken der Schräge folgen.
     quad: list[list[float]] | None = None
+    auto_follow: bool = True  # Ziffernfelder anhand roter Lampen nachführen
     digit_w: float = 0.19     # Ziffernbreite als Anteil der Quad-Breite
     colon_w: float = 0.10     # Breite der Doppelpunkt-Lücke als Anteil
     # Linke Kante jeder Ziffer als Anteil der Quad-Breite. None = gleichmäßig
     # aus digit_w/colon_w verteilen.
     digit_x: list[float] | None = None
+    segment_overrides: list[list[int] | None] | None = None  # 28 Messfelder im Normbild inkl. Rand
     thick: float = 0.15       # Messkasten-Dicke als Anteil der Ziffernbreite
     y_top: float = 0.0        # Ziffern-Oberkante im Viereck (Anteil, <0 = darüber)
     y_bot: float = 1.0        # Ziffern-Unterkante im Viereck (Anteil, >1 = darunter)
@@ -68,6 +70,19 @@ class Config:
     @classmethod
     def from_dict(cls, d: dict) -> "Config":
         known = {k: v for k, v in d.items() if k in cls.__dataclass_fields__}
+        overrides = known.get("segment_overrides")
+        if overrides is not None:
+            if not isinstance(overrides, list) or len(overrides) != 28:
+                raise ValueError("segment_overrides muss 28 Messfelder enthalten")
+            for rect in overrides:
+                if rect is None:
+                    continue
+                if (not isinstance(rect, list) or len(rect) != 4
+                        or any(type(v) is not int for v in rect)):
+                    raise ValueError("Messfelder benötigen vier ganzzahlige Koordinaten")
+                x0, y0, x1, y1 = rect
+                if not (0 <= x0 < x1 <= FULL_W and 0 <= y0 < y1 <= FULL_H):
+                    raise ValueError("Messfeld liegt außerhalb des entzerrten Bildes")
         return cls(**known)
 
     def to_dict(self) -> dict:
@@ -118,6 +133,9 @@ def segment_rects(cfg: Config) -> list[tuple[int, int, int, int]]:
             a0, b0, a1, b1 = r[s]
             rects.append((int(round(PAD + x0 + a0)), int(round(PAD + y0 + b0)),
                           int(round(PAD + x0 + a1)), int(round(PAD + y0 + b1))))
+    if cfg.segment_overrides is not None:
+        rects = [tuple(custom) if custom is not None else rect
+                 for rect, custom in zip(rects, cfg.segment_overrides)]
     return rects
 
 
@@ -127,9 +145,10 @@ def color_score(bgr: np.ndarray, mode: str) -> np.ndarray:
     if mode == "luma":
         s = (r * 3 + g * 6 + b) // 10
     else:
-        # Rot minus anteilig Grün/Blau: grünes Netz/Rasen -> ~0.
-        # Überbelichtete (weiße) LED-Kerne bleiben noch deutlich positiv.
-        s = r - (np.maximum(g, b) * 6) // 10
+        # Nur rotes Licht: Weiß/Grau und das grüne Netz sind AUS.
+        # Relative Sättigung verhindert, dass warmes Sonnenlicht als LED zählt.
+        excess = r - np.maximum(g, b)
+        s = np.where((excess >= 12) & (excess >= 0.15 * r), excess, 0)
     return np.clip(s, 0, 255).astype(np.uint8)
 
 
@@ -162,6 +181,13 @@ class SegmentDecoder:
     def reconfigure(self, cfg: Config, reset_refs: bool = True):
         self.cfg = cfg
         self.rects = segment_rects(cfg)
+        if reset_refs or not hasattr(self, "alignment"):
+            from .alignment import DigitAlignment
+            self.alignment = DigitAlignment(self.rects)
+        elif cfg.auto_follow:
+            self.rects = [(a+self.alignment.offsets[i//7][0], b+self.alignment.offsets[i//7][1],
+                           c+self.alignment.offsets[i//7][0], d+self.alignment.offsets[i//7][1])
+                          for i,(a,b,c,d) in enumerate(self.alignment.base)]
         self.M = None
         if cfg.quad:
             src = np.array(cfg.quad, dtype=np.float32)
@@ -184,7 +210,9 @@ class SegmentDecoder:
             patch = score[max(y0, 0):max(y1, 0), max(x0, 0):max(x1, 0)].ravel()
             if patch.size == 0:
                 continue
-            k = max(1, int(patch.size * TOPK))
+            # Wenige sichtbare rote Lämpchen genügen auch hinter dem Netz.
+            fraction = 0.05 if self.cfg.color_mode == "red" else TOPK
+            k = min(patch.size, max(3, int(patch.size * fraction)))
             vals[i] = np.partition(patch, patch.size - k)[-k:].mean()
         return vals
 
@@ -227,12 +255,20 @@ class SegmentDecoder:
         score = self.prepare(frame)
         if score is None:
             return None
+        if self.cfg.auto_follow and self.cfg.color_mode == "red":
+            self.rects = self.alignment.update(score)
         return self.classify(self.measure(score))
 
     def classify(self, raw: np.ndarray, learn: bool = True) -> Reading:
-        norm = self._normalize(raw) if learn else raw.copy()
+        # Keine selbstverstärkenden Referenzen aus unsicheren Rot-Lesungen.
+        norm = self._normalize(raw) if learn and self.cfg.color_mode != "red" else raw.copy()
         thr, m_off, m_on = self._otsu(norm)
         contrast = float(m_on - m_off)
+        if self.cfg.color_mode == "red":
+            # Weiß wurde bereits entfernt; verdeckte rote LEDs dürfen deutlich
+            # schwächer sein als freie LEDs. Otsu allein trennt sonst helle und
+            # verdeckte AKTIVE Segmente statt an und aus.
+            thr = max(12.0, 0.15 * m_on)
         on = norm > thr
         span = max(m_on - m_off, 1e-6)
         values = np.clip((norm - m_off) / span, -0.5, 1.5)
@@ -264,7 +300,11 @@ class SegmentDecoder:
                 digits.append(None)
             expected.append(best_m)
             dists.append(best_dist)
-            seg_margin = float(np.min(np.abs(values[d * 7:(d + 1) * 7] - 0.5))) * 2
+            segment_values = norm[d * 7:(d + 1) * 7]
+            margins = np.where(segment_values > thr,
+                               (segment_values - thr) / max(m_on - thr, 1.0),
+                               (thr - segment_values) / max(thr, 1.0))
+            seg_margin = float(np.clip(np.min(margins), 0, 1))
             if best_dist == 1:
                 seg_margin *= 0.4
             worst = min(worst, seg_margin)
@@ -279,7 +319,7 @@ class SegmentDecoder:
             return r
         r.text = text
         r.confidence = round(max(0.0, min(1.0, worst)), 3)
-        if not learn:
+        if not learn or self.cfg.color_mode == "red":
             return r
         # Referenzen nur bei gültiger Lesung lernen – nach dem *erkannten*
         # Muster, damit auch gedimmte Segmente ihren eigenen Pegel lernen.

@@ -1,0 +1,281 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/home/tori/src/tafeluhr/tafeluhr/source.py", line 10, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+2026-10-04 12:10:37,504 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+2026-10-04 12:20:12,951 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x57b8aef4cf80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x57b8aef4ce80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:15,024 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x59267f2faf80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x59267f2fae80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:17,086 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x624e903fcf80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x624e903fce80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:19,145 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x60e5da979f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x60e5da979e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:21,227 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x61f43affdf80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x61f43affde80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:23,298 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5e524b51ff80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5e524b51fe80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:25,382 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x57f016250f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x57f016250e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:27,457 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x62d0f434df80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x62d0f434de80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:29,528 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x57dc6a88af80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x57dc6a88ae80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:31,593 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x57a62b3def80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x57a62b3dee80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:33,673 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5d561add8f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5d561add8e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:35,750 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5b133a82af80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5b133a82ae80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:37,824 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x62e698d37f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x62e698d37e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:39,908 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5e41d35a3f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5e41d35a3e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:41,986 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5c71e545af80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5c71e545ae80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:44,056 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x586b472b0f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x586b472b0e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:46,116 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x639a892e0f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x639a892e0e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:48,192 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5b1b57c47f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5b1b57c47e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:50,284 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x57ca48cf1f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x57ca48cf1e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:52,362 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x59c172b5ef80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x59c172b5ee80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:54,433 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5d591d291f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5d591d291e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:56,516 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x616b4f4e9f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x616b4f4e9e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:20:58,578 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x58b0c468cf80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x58b0c468ce80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:00,655 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5c92a238ef80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5c92a238ee80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:02,725 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5bf75ae11f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5bf75ae11e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:04,809 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5fb2b9d98f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5fb2b9d98e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:06,889 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x56673fbc8f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x56673fbc8e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:08,955 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5ed3266def80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5ed3266dee80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:11,033 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5a435a7c8f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5a435a7c8e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:13,108 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x58e24a050f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x58e24a050e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:15,199 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x61f4b720ef80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x61f4b720ee80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:17,273 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5db7f16cdf80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5db7f16cde80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:19,352 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x646a95956f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x646a95956e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:21,430 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x62f92375df80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x62f92375de80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:23,509 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x62bce7a43f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x62bce7a43e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:25,590 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x55fee83abf80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x55fee83abe80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:27,675 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5bb2cf689f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5bb2cf689e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:29,748 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x56e4a572af80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x56e4a572ae80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:31,825 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5f68db449f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5f68db449e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:33,915 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x6538d2900f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x6538d2900e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:35,975 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x64fd4c376f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x64fd4c376e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:38,046 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x57e97fa01f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x57e97fa01e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:40,135 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5a1fe6c7bf80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5a1fe6c7be80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:42,222 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5d6b24325f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5d6b24325e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:44,294 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x57ba60cc7f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x57ba60cc7e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:46,374 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5555bf8fef80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5555bf8fee80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:48,452 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x583146b4cf80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x583146b4ce80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:50,532 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x6285ab95ff80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x6285ab95fe80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:52,592 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x585bc1d74f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x585bc1d74e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:54,658 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x59aa5c654f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x59aa5c654e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:56,719 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x5970c9747f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x5970c9747e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:21:58,781 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x57cf7a536f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x57cf7a536e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:22:00,841 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x55debab16f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x55debab16e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:22:02,901 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x6206a8d85f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x6206a8d85e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found
+2026-10-04 12:22:04,966 INFO Aufnahme: ffmpeg -hide_banner -loglevel error -nostdin -rtsp_transport tcp -i rtsp://192.168.95.18:8554/tafeluhr -map 0:v:0 -c copy -f segment -segment_time 600 -reset_timestamps 1 -strftime 1 aufnahmen/tafel_%Y%m%d_%H%M%S.mkv
+[rtsp @ 0x56a8d0008f80] method DESCRIBE failed: 404 Not Found
+[in#0 @ 0x56a8d0008e80] Error opening input: Server returned 404 Not Found
+Error opening input file rtsp://192.168.95.18:8554/tafeluhr.
+Error opening input files: Server returned 404 Not Found

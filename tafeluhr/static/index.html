@@ -25,6 +25,8 @@
   #snap { display:block; width:100%; height:auto; }
   #ov { position:absolute; inset:0; width:100%; height:100%; cursor:crosshair; }
   #debug { width:100%; image-rendering:pixelated; border-radius:6px; background:#000; display:block; }
+  #debugStage { position:relative; touch-action:none; user-select:none; }
+  #segments { position:absolute; inset:0; width:100%; height:100%; }
   .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:10px 18px; }
   label { display:grid; grid-template-columns:1fr auto; gap:2px 10px; font-size:13px; }
   label input[type=range] { grid-column:1 / -1; width:100%; }
@@ -55,14 +57,23 @@
       <span class="meta" id="frameinfo"></span>
     </div>
     <div id="stage"><img id="snap" alt=""><svg id="ov"></svg></div>
-    <p class="hint">Leeres Bild: Rechteck aufziehen. Danach Ecken ziehen; Ziehen innerhalb verschiebt das Viereck.
+    <p class="hint">Gelbe Ziffernfelder einzeln ziehen, um die jeweilige Ziffer auszurichten. Im blauen Bereich außerhalb der gelben Felder ziehen, um den gesamten Uhrbereich zu verschieben. Weiße Eckpunkte verändern den Außenrahmen. Einzelne Segmente und deren Größe lassen sich unter „2. Ziffern ausrichten“ anpassen.
       Automatisch ausrichten braucht ca. 15–25 s und funktioniert am besten, wenn die Uhr läuft (verschiedene Sekundenziffern).
       Stark kursive Ziffern: obere Ecken nach rechts schieben, bis die Ziffern im Debug-Bild senkrecht stehen.</p>
   </section>
 
   <section>
-    <h2>2. Ziffern ausrichten <span>– grüne Kästen = Segment an, rote = aus</span></h2>
-    <img id="debug" alt="">
+    <h2>2. Ziffern ausrichten <span>– blaue Kästen = Messfelder, gelb = ausgewähltes Feld</span></h2>
+    <div class="toolbar">
+      <label style="display:flex;align-items:center;gap:6px"><input type="checkbox" id="autoFollow"> Ziffern automatisch nachführen</label>
+      <label>Verschieben <select id="editMode"><option value="segment">Einzelnes Segment</option><option value="digit">Ganze Ziffer</option></select></label>
+      <button id="resetSegments">Manuelle Messfelder zurücksetzen</button>
+      <span id="segmentInfo" class="meta"></span>
+    </div>
+    <div id="debugStage"><img id="debug" alt=""><svg id="segments" viewBox="0 0 672 232" preserveAspectRatio="none"></svg></div>
+    <p class="hint">Automatische Nachführung gleicht kleine Verschiebungen der vier Ziffern aus. Manuelles Ziehen schaltet sie aus; mit dem Häkchen lässt sie sich wieder einschalten. Messfeld direkt ziehen. Im Modus „Einzelnes Segment“ am weißen Griff unten rechts die Größe ändern.
+      Pfeiltasten verschieben das ausgewählte Feld um einen Bildpunkt (Umschalt: fünf).
+      Die Regler unten und „Automatisch ausrichten“ ersetzen die manuellen Messfelder. Der Außenrahmen bleibt beim Ziehen der Messfelder unverändert.</p>
     <div class="grid" style="margin-top:12px">
       <label>Ziffernbreite <output id="o_digit_w"></output><input type="range" id="digit_w" min="0.08" max="0.3" step="0.002"></label>
       <label>Segmentdicke <output id="o_thick"></output><input type="range" id="thick" min="0.1" max="0.45" step="0.005"></label>
@@ -109,6 +120,7 @@ async function loadConfig() {
   cfg = await (await fetch('/api/config')).json();
   frameSize = cfg.frame_size;
   syncControls();
+  drawSegments();
 }
 function syncControls() {
   const dx = cfg.digit_x || cfg.digit_x_effective || [0,0.25,0.55,0.8];
@@ -120,14 +132,32 @@ function syncControls() {
   set('coast_s', Math.round(cfg.coast_ms/1000));
   dx.forEach((v,i)=>set('dx'+i, v, v=>(+v).toFixed(3)));
   $('color_mode').value = cfg.color_mode;
+  $('autoFollow').checked = cfg.auto_follow !== false;
 }
-let postTimer = null, pending = {};
+let postTimer = null, pending = {}, saveQueue = Promise.resolve(), saveRevision = 0;
+let imageEpoch = 0, snapRequest = 0, debugRequest = 0;
 function post(patch, immediate=false) {
+  const revision = ++saveRevision;
+  imageEpoch++;
   Object.assign(pending, patch); Object.assign(cfg, patch);
   clearTimeout(postTimer);
   postTimer = setTimeout(async () => {
     const body = pending; pending = {};
-    await fetch('/api/config', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+    saveQueue = saveQueue.then(async () => {
+    try {
+      const response = await fetch('/api/config', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+      if (!response.ok) throw new Error((await response.json()).error || 'Speichern fehlgeschlagen');
+      if (!segmentDrag && !dragging && revision === saveRevision) {
+        const saved = await (await fetch('/api/config')).json();
+        if (!segmentDrag && !dragging && revision === saveRevision) {
+          cfg.segment_rects = saved.segment_rects; cfg.segment_overrides = saved.segment_overrides;
+          drawSegments();
+        }
+      }
+      $('segmentInfo').textContent = 'Gespeichert';
+    } catch (e) { $('segmentInfo').textContent = 'Nicht gespeichert: ' + e.message; }
+    });
+
   }, immediate ? 0 : 150);
 }
 // Slider
@@ -176,14 +206,18 @@ function viewRect() {
   return {x:0, y:0, w:frameSize[0], h:frameSize[1]};
 }
 function refreshSnap() {
-  if ($('pause').checked || dragging) return;
-  if (!frameSize) { loadConfig(); }
-  view = viewRect();
-  const q = zoomMode ? `?x=${view.x}&y=${view.y}&w=${view.w}&h=${view.h}` : '';
+  if ($('pause').checked || dragging || segmentDrag) return;
+  if (!frameSize) { loadConfig(); return; }
+  const nextView = viewRect(), request = ++snapRequest, epoch = imageEpoch;
+  const q = zoomMode ? `?x=${nextView.x}&y=${nextView.y}&w=${nextView.w}&h=${nextView.h}` : '';
   const img = new Image();
-  img.onload = () => { snap.src = img.src; drawOverlay(); };
+  img.onload = () => {
+    if (request !== snapRequest || epoch !== imageEpoch || dragging || segmentDrag || $('pause').checked) return;
+    // Bild und zugehörigen Koordinatenausschnitt gemeinsam übernehmen.
+    view = nextView; snap.src = img.src; drawOverlay();
+    $('frameinfo').textContent = `Bild ${frameSize[0]}×${frameSize[1]}` + (zoomMode ? ` · Ausschnitt ${view.w}×${view.h}` : '');
+  };
   img.src = '/snapshot.jpg' + q + (q ? '&' : '?') + 't=' + Date.now();
-  $('frameinfo').textContent = frameSize ? `Bild ${frameSize[0]}×${frameSize[1]}` + (zoomMode ? ` · Ausschnitt ${view.w}×${view.h}` : '') : '';
 }
 function toImg(ev) {
   const r = ov.getBoundingClientRect();
@@ -193,21 +227,43 @@ function toScreen(p) {
   const r = ov.getBoundingClientRect();
   return [(p[0]-view.x) * r.width / view.w, (p[1]-view.y) * r.height / view.h];
 }
+// Unit-square homography to the camera quad (matching OpenCV's warp).
+function quadTransform() {
+  const [p0,p1,p2,p3] = cfg.quad;
+  const dx1=p1[0]-p2[0], dx2=p3[0]-p2[0], dx3=p0[0]-p1[0]+p2[0]-p3[0];
+  const dy1=p1[1]-p2[1], dy2=p3[1]-p2[1], dy3=p0[1]-p1[1]+p2[1]-p3[1];
+  const det=dx1*dy2-dx2*dy1;
+  const g=(dx3*dy2-dx2*dy3)/det, h=(dx1*dy3-dx3*dy1)/det;
+  return [p1[0]-p0[0]+g*p1[0],p3[0]-p0[0]+h*p3[0],p0[0],
+          p1[1]-p0[1]+g*p1[1],p3[1]-p0[1]+h*p3[1],p0[1],g,h];
+}
+function normToImage([x,y]) {
+  const [a,b,c,d,e,f,g,h]=quadTransform(), u=(x-16)/640, v=(y-16)/200, w=g*u+h*v+1;
+  return [(a*u+b*v+c)/w,(d*u+e*v+f)/w];
+}
+function imageToNorm([x,y]) {
+  const [a,b,c,d,e,f,g,h]=quadTransform();
+  const aa=a-x*g, bb=b-x*h, dd=d-y*g, ee=e-y*h, det=aa*ee-bb*dd;
+  return [16+640*((x-c)*ee-bb*(y-f))/det,16+200*(aa*(y-f)-(x-c)*dd)/det];
+}
+function digitBounds(i) {
+  const rs=cfg.segment_rects.slice(i*7,i*7+7);
+  return [Math.min(...rs.map(r=>r[0])),Math.min(...rs.map(r=>r[1])),
+          Math.max(...rs.map(r=>r[2])),Math.max(...rs.map(r=>r[3]))];
+}
 function drawOverlay() {
   const r = ov.getBoundingClientRect();
   ov.setAttribute('viewBox', `0 0 ${r.width} ${r.height}`);
   if (!cfg || !cfg.quad || !view) { ov.innerHTML = ''; return; }
   const pts = cfg.quad.map(toScreen);
   let s = `<polygon points="${pts.map(p=>p.join(',')).join(' ')}" fill="rgba(90,169,239,0.12)" stroke="#5aa9ef" stroke-width="2"/>`;
-  // Ziffernkästen (bilinear im Viereck)
-  const dx = cfg.digit_x || cfg.digit_x_effective || [];
-  const lerp=(a,b,t)=>[a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t];
-  const yt = cfg.y_top ?? 0, yb = cfg.y_bot ?? 1;
-  const at = (u, v) => lerp(lerp(pts[0], pts[1], u), lerp(pts[3], pts[2], u), v);
-  dx.forEach(x => {
-    const c = [at(x, yt), at(x + cfg.digit_w, yt), at(x + cfg.digit_w, yb), at(x, yb)];
-    s += `<polygon points="${c.map(p=>p.join(',')).join(' ')}" fill="none" stroke="#f0b43c" stroke-width="1.5" stroke-dasharray="4 3"/>`;
-  });
+  // Messfelder mit derselben projektiven Abbildung wie im Decoder.
+  if (cfg.segment_rects) for (let i=0;i<4;i++) {
+    const [x0,y0,x1,y1] = digitBounds(i);
+    const c = [[x0,y0],[x1,y0],[x1,y1],[x0,y1]].map(p=>toScreen(normToImage(p)));
+    s += `<polygon data-digit="${i}" points="${c.map(p=>p.join(',')).join(' ')}" fill="rgba(240,180,60,0.10)" stroke="#f0b43c" stroke-width="2" style="cursor:move"/>`;
+    s += `<text x="${c[0][0]+4}" y="${c[0][1]+16}" fill="#f0b43c" pointer-events="none">${i+1}</text>`;
+  }
   ['OL','OR','UR','UL'].forEach((n,i) => {
     s += `<circle cx="${pts[i][0]}" cy="${pts[i][1]}" r="9" fill="rgba(0,0,0,0.4)" stroke="#fff" stroke-width="2"/>`;
   });
@@ -215,8 +271,16 @@ function drawOverlay() {
 }
 ov.addEventListener('pointerdown', ev => {
   if (!view) return;
+  imageEpoch++;
   ov.setPointerCapture(ev.pointerId);
   const p = toImg(ev);
+  const digit = ev.target.closest('[data-digit]');
+  if (digit && cfg.quad && cfg.segment_rects) {
+    ev.preventDefault();
+    const i=Number(digit.dataset.digit);
+    dragging={type:'digit', start:imageToNorm(p), original:cfg.segment_rects.map(r=>[...r]), indices:Array.from({length:7},(_,j)=>i*7+j)};
+    return;
+  }
   if (cfg.quad) {
     const r = ov.getBoundingClientRect(); const sc = view.w / r.width;
     let best=-1, bd=1e9;
@@ -230,6 +294,11 @@ ov.addEventListener('pointerdown', ev => {
 ov.addEventListener('pointermove', ev => {
   if (!dragging) return;
   const p = toImg(ev);
+  if (dragging.type==='digit') {
+    const n=imageToNorm(p), d=dragging;
+    moveSegments(d.original,d.indices,Math.round(n[0]-d.start[0]),Math.round(n[1]-d.start[1]));
+    return;
+  }
   if (dragging.type==='corner') cfg.quad[dragging.i] = p;
   else if (dragging.type==='move') { const dx=p[0]-dragging.start[0], dy=p[1]-dragging.start[1];
     cfg.quad = dragging.orig.map(q=>[q[0]+dx, q[1]+dy]); }
@@ -238,12 +307,19 @@ ov.addEventListener('pointermove', ev => {
 });
 ov.addEventListener('pointerup', () => {
   if (!dragging) return;
+  if (dragging.type==='digit') {
+    const indices=dragging.indices; dragging=null; saveSegments(indices); return;
+  }
   const q = cfg.quad; dragging = null;
   // Reihenfolge sicherstellen: OL, OR, UR, UL
   const xs=q.map(p=>p[0]), ys=q.map(p=>p[1]);
   if (Math.max(...xs)-Math.min(...xs) < 8 || Math.max(...ys)-Math.min(...ys) < 4) { cfg.quad=null; drawOverlay(); return; }
   cfg.quad = orderQuad(q).map(p=>[Math.round(p[0]*10)/10, Math.round(p[1]*10)/10]);
   post({quad: cfg.quad}, true); drawOverlay();
+});
+ov.addEventListener('pointercancel', () => {
+  if (dragging?.type==='digit') { cfg.segment_rects=dragging.original; drawSegments(); }
+  dragging=null;
 });
 function orderQuad(q) {
   const s = [...q].sort((a,b)=>a[1]-b[1]);
@@ -261,10 +337,97 @@ $('bZoom').onclick = () => { if (cfg && cfg.quad) { zoomMode=true; refreshSnap()
 $('bNew').onclick = () => { cfg.quad=null; zoomMode=false; post({quad:null}, true); refreshSnap(); };
 window.addEventListener('resize', drawOverlay);
 
+// ---- Einzelne Messfelder im entzerrten Bild ----
+const segmentSvg = $('segments');
+let segmentDrag = null, selectedSegment = null;
+function drawSegments() {
+  drawOverlay();
+  if (!cfg?.segment_rects) return;
+  segmentSvg.setAttribute('viewBox', `0 0 ${cfg.debug_size.join(' ')}`);
+  segmentSvg.innerHTML = cfg.segment_rects.map(([x0,y0,x1,y1], i) =>
+    `<g data-i="${i}" style="cursor:move"><rect x="${x0}" y="${y0}" width="${x1-x0}" height="${y1-y0}" fill="transparent" stroke="${i===selectedSegment?'#ffdd55':'#5aa9ef'}" stroke-width="0.7"/>
+    <text x="${x0}" y="${y0-2}" fill="#fff" font-size="6" pointer-events="none">${Math.floor(i/7)+1}${'abcdefg'[i%7]}</text>
+    ${$('editMode').value==='segment'?`<rect data-resize="1" x="${x1-3}" y="${y1-3}" width="6" height="6" fill="white" style="cursor:nwse-resize"/>`:''}</g>`).join('');
+}
+function segmentPoint(e) {
+  const r = segmentSvg.getBoundingClientRect();
+  return [(e.clientX-r.left)*cfg.debug_size[0]/r.width, (e.clientY-r.top)*cfg.debug_size[1]/r.height];
+}
+function segmentIndices(i) {
+  return $('editMode').value==='digit' ? Array.from({length:7}, (_,j)=>Math.floor(i/7)*7+j) : [i];
+}
+function moveSegments(original, indices, dx, dy, resize=false) {
+  const [w,h] = cfg.debug_size;
+  if (!resize) {
+    dx = Math.max(-Math.min(...indices.map(i=>original[i][0])), Math.min(dx,w-Math.max(...indices.map(i=>original[i][2]))));
+    dy = Math.max(-Math.min(...indices.map(i=>original[i][1])), Math.min(dy,h-Math.max(...indices.map(i=>original[i][3]))));
+  }
+  for (const i of indices) {
+    const [x0,y0,x1,y1] = original[i];
+    cfg.segment_rects[i] = resize ? [x0,y0,Math.max(x0+1,Math.min(w,x1+dx)),Math.max(y0+1,Math.min(h,y1+dy))] : [x0+dx,y0+dy,x1+dx,y1+dy];
+  }
+  drawSegments();
+}
+function saveSegments(indices) {
+  const overrides = cfg.segment_overrides ? cfg.segment_overrides.map(r=>r && [...r]) : Array(28).fill(null);
+  for (const i of indices) overrides[i] = [...cfg.segment_rects[i]];
+  $('autoFollow').checked = false;
+  post({segment_overrides:overrides, auto_follow:false}, true);
+}
+segmentSvg.setAttribute('tabindex','0');
+segmentSvg.addEventListener('pointerdown', e => {
+  const target = e.target.closest('[data-i]');
+  if (!target || !cfg?.segment_rects) return;
+  imageEpoch++;
+  e.preventDefault(); segmentSvg.focus({preventScroll:true}); selectedSegment = Number(target.dataset.i);
+  segmentDrag = {start:segmentPoint(e), original:cfg.segment_rects.map(r=>[...r]), indices:segmentIndices(selectedSegment), resize:!!e.target.dataset.resize};
+  segmentSvg.setPointerCapture(e.pointerId); drawSegments();
+});
+segmentSvg.addEventListener('pointermove', e => {
+  if (!segmentDrag) return;
+  const p = segmentPoint(e), d = segmentDrag;
+  moveSegments(d.original,d.indices,Math.round(p[0]-d.start[0]),Math.round(p[1]-d.start[1]),d.resize);
+});
+segmentSvg.addEventListener('pointerup', () => {
+  if (!segmentDrag) return;
+  const indices = segmentDrag.indices; segmentDrag = null; saveSegments(indices);
+});
+segmentSvg.addEventListener('pointercancel', () => {
+  if (segmentDrag) cfg.segment_rects = segmentDrag.original;
+  segmentDrag = null; drawSegments();
+});
+segmentSvg.addEventListener('keydown', e => {
+  if (selectedSegment===null || !['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)) return;
+  e.preventDefault(); const n=e.shiftKey?5:1, indices=segmentIndices(selectedSegment);
+  moveSegments(cfg.segment_rects.map(r=>[...r]),indices,e.key==='ArrowRight'?n:e.key==='ArrowLeft'?-n:0,e.key==='ArrowDown'?n:e.key==='ArrowUp'?-n:0);
+  saveSegments(indices);
+});
+$('editMode').onchange = drawSegments;
+$('autoFollow').onchange = e => post({auto_follow:e.target.checked},true);
+async function refreshAlignment() {
+  if (!cfg?.auto_follow || dragging || segmentDrag || $('pause').checked || Object.keys(pending).length) return;
+  const revision=saveRevision, epoch=imageEpoch;
+  try {
+    await saveQueue;
+    const saved=await (await fetch('/api/config')).json();
+    if (revision!==saveRevision || epoch!==imageEpoch || dragging || segmentDrag || $('pause').checked) return;
+    cfg.segment_rects=saved.segment_rects;
+    drawSegments();
+  } catch (_) { /* Keep the last displayed fields during connection loss. */ }
+}
+setInterval(refreshAlignment,1000);
+$('resetSegments').onclick = () => post({segment_overrides:null},true);
+
 // ---- Debug-Bild ----
 function refreshDebug() {
-  const img = new Image(); img.onload = () => { $('debug').src = img.src; };
-  img.src = '/debug.jpg?t=' + Date.now();
+  if (segmentDrag || dragging || $('pause').checked) return;
+  const request = ++debugRequest, epoch = imageEpoch;
+  const img = new Image();
+  img.onload = () => {
+    if (request !== debugRequest || epoch !== imageEpoch || segmentDrag || dragging || $('pause').checked) return;
+    $('debug').src = img.src;
+  };
+  img.src = '/debug.jpg?plain=true&t=' + Date.now();
 }
 
 // ---- Status per WebSocket ----

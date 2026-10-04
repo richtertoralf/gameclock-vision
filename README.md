@@ -39,7 +39,7 @@ Web-Oberfläche: `http://<vm>:8090/`
 2. **Starten** (siehe oben), Browser öffnen. Oben muss „Stream verbunden“ stehen.
 3. **Rechteck ziehen**: um die 4 Uhrziffern, ohne die Tore, lieber etwas zu groß. Kursiv ist egal.
 4. **„Automatisch ausrichten“** drücken (~15–25 s). Am besten bei *laufender* Uhr: Dann sieht die Suche verschiedene Sekundenziffern und prüft, ob die Folge plausibel ist.
-5. **Kontrolle im Debug-Bild**: Die Kästen müssen auf den LED-Segmenten sitzen (grün = an, rot = aus), oben links steht der gelesene Wert. Wenn eine Ziffer danebenliegt, mit den Schiebereglern nachjustieren oder Rechteck korrigieren und erneut automatisch ausrichten.
+5. **Kontrolle im Debug-Bild**: Die Kästen müssen auf den LED-Segmenten sitzen (grün = an, rot = aus), oben links steht der gelesene Wert. Für die grobe Ausrichtung die Schieberegler verwenden. Danach im Debug-Bild einzelne Messfelder direkt ziehen oder im Modus „Ganze Ziffer“ alle sieben Felder gemeinsam verschieben. Der weiße Griff unten rechts verändert die Größe eines einzelnen Feldes. Pfeiltasten verschieben das ausgewählte Feld um einen Bildpunkt (Umschalt: fünf). Änderungen werden automatisch gespeichert; der Außenrahmen bleibt dabei unverändert. „Manuelle Messfelder zurücksetzen“, Änderungen der Rasterregler und eine erfolgreiche automatische Ausrichtung ersetzen die manuellen Messfelder. „Bild anhalten“ hält auch das Debug-Bild für die Ausrichtung an.
 6. Dein Programm an `/api/state` oder `/ws` hängen.
 
 Falls die Erkennung nicht stabil wird: einfach mit `--record` weiterlaufen lassen. Die Aufnahme lässt sich danach beliebig oft durchspielen (siehe unten).
@@ -115,3 +115,46 @@ tafeluhr/app.py       Web-Server, API, CLI
 tafeluhr/static/      Web-Oberfläche
 tools/                Testvideo-Generator, Offline-Auswertung, Tests
 ```
+
+### Rot-Erkennung und Live-Prüfung
+
+Im Farbmodus **Rot** zählen nur ausreichend gesättigte rote Bildpunkte als
+aktive Lämpchen. Weiße/graue Lämpchen und grüne Netzfäden zählen als aus.
+Die Messung verwendet die stärksten roten Bildpunkte je Segment, damit eine
+teilweise Netzverdeckung nicht den gesamten Messwert verdünnt. Vollständige
+Verdeckung oder verrutschte Messfelder können weiterhin Lesungen verhindern.
+
+Der Tracker korrigiert Zeiten vorwärts und rückwärts anhand kurz bestätigter,
+zeitlich passender Sekundenfolgen; bis zu zwei fehlende Sekunden zwischen
+Bestätigungen sind erlaubt. Eine stehende neue Zeit benötigt weiterhin die
+konfigurierte Bestätigungsdauer. Unbestätigte Rohlesungen erneuern nicht das
+Alter des bestätigten Tafelwertes.
+
+Die lokale Codeversion kann parallel zum laufenden Server mit dessen aktuellen
+Kamerabildern geprüft werden, ohne Konfiguration oder Aufnahme zu verändern:
+
+```bash
+.venv/bin/python -B -m tools.eval_live --seconds 20
+```
+
+Die Ausgabe zeigt Rohlesung, übernommene Uhrzeit, Laufstatus und eine Statistik.
+Die Lesungsquote ist keine Messung der tatsächlichen Zifferngenauigkeit.
+Nach Python-Codeänderungen muss der Hauptprozess neu gestartet werden, damit
+Browser und API ebenfalls die neue Auswertung verwenden.
+
+### Automatische Nachführung der Ziffernfelder
+
+„Ziffern automatisch nachführen“ ist standardmäßig aktiv. Ausgehend von der
+vorhandenen groben Ausrichtung sucht die Anwendung für jede Ziffer getrennt
+nach den roten Lampen. Sie gleicht kleine Verschiebungen aus (höchstens ±24
+horizontal und ±16 vertikal im entzerrten 672×232-Bild). Eine Änderung benötigt
+mindestens drei passende Bilder und Unterstützung durch mehrere Segmente.
+Horizontale Messfelder werden begrenzt, damit sie keine seitlichen Lampen der
+Ziffer miterfassen. Die effektiven Positionen erscheinen automatisch im Browser.
+
+Die gespeicherte Grundkalibrierung wird dabei nicht überschrieben. Manuelles
+Ziehen schaltet die Nachführung aus; das Häkchen aktiviert sie wieder. „Bild
+anhalten“ friert nur die Browseransicht ein, nicht die laufende Erkennung.
+Für große Kamerabewegungen oder eine andere Anzeigetafel muss der grobe Bereich
+weiterhin neu markiert und „Automatisch ausrichten“ benutzt werden. Die
+Nachführung ersetzt keine vollständige automatische Suche nach einer Uhr im Bild.

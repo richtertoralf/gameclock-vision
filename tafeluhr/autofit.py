@@ -143,7 +143,7 @@ def autofit(cfg: Config, frames: list[np.ndarray], budget_s: float = 30.0) -> tu
     """Liefert die beste Konfiguration und Infos (Score, Lesequote).
     frames: Originalbilder (die Suche kann das Viereck schräg stellen)."""
     t0 = time.time()
-    base = replace(cfg, y_top=0.0, y_bot=1.0, thick=0.15, digit_x=None)
+    base = replace(cfg, segment_overrides=None, y_top=0.0, y_bot=1.0, thick=0.15, digit_x=None)
     scores = [SegmentDecoder(base).prepare(f) for f in frames]
     # Kursiv-Schräge schätzen und ins Viereck übernehmen
     vg0 = vertical_guess(scores) or (0.0, 1.0)

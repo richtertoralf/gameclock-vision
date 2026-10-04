@@ -27,13 +27,13 @@ from fastapi.responses import FileResponse, JSONResponse, PlainTextResponse, Res
 from collections import deque
 
 from .autofit import autofit
-from .decoder import Config, SegmentDecoder, default_digit_x
+from .decoder import Config, SegmentDecoder, default_digit_x, segment_rects, FULL_W, FULL_H
 from .source import FFmpegSource, Recorder
 from .tracker import ClockTracker
 
 log = logging.getLogger("tafeluhr")
 STATIC = Path(__file__).parent / "static"
-GEOMETRY_KEYS = {"quad", "digit_w", "colon_w", "thick", "digit_x", "color_mode", "y_top", "y_bot"}
+GEOMETRY_KEYS = {"auto_follow", "segment_overrides", "quad", "digit_w", "colon_w", "thick", "digit_x", "color_mode", "y_top", "y_bot"}
 
 
 class Engine:
@@ -81,7 +81,10 @@ class Engine:
         with self.lock:
             d = self.cfg.to_dict()
             d.update({k: v for k, v in patch.items() if k in d})
-            geometry_changed = any(k in patch and patch[k] != getattr(self.cfg, k) for k in GEOMETRY_KEYS)
+            # Grobe Rasteränderungen lösen die manuell gesetzten Messfelder ab.
+            if any(k in patch for k in ("digit_w", "colon_w", "thick", "digit_x", "y_top", "y_bot")) and "segment_overrides" not in patch:
+                d["segment_overrides"] = None
+            geometry_changed = any(d[k] != getattr(self.cfg, k) for k in GEOMETRY_KEYS)
             self.cfg = Config.from_dict(d)
             self.decoder.reconfigure(self.cfg, reset_refs=geometry_changed)
             self._apply_timing()
@@ -91,7 +94,8 @@ class Engine:
 
     def on_frame(self, frame: np.ndarray, t: float):
         t0 = time.perf_counter()
-        reading = self.decoder.decode(frame) if self.cfg.quad else None
+        with self.lock:
+            reading = self.decoder.decode(frame) if self.cfg.quad else None
         text = reading.text if reading else None
         conf = reading.confidence if reading else 0.0
         if t - self._hist_t >= 1.0:
@@ -126,7 +130,7 @@ class Engine:
                                 "error": "Keine gültige Lesung gefunden – Viereck prüfen (alle 4 Uhrziffern drin?)"}
                     return
                 self.update_config({k: getattr(best, k) for k in
-                                    ("quad", "digit_w", "colon_w", "digit_x", "thick", "y_top", "y_bot")})
+                                    ("quad", "digit_w", "colon_w", "digit_x", "thick", "y_top", "y_bot", "segment_overrides")})
                 self.tracker.reset()
                 self.fit = {"running": False, "info": info, "error": None}
             except Exception as e:  # noqa: BLE001
@@ -165,16 +169,22 @@ def create_app(engine: Engine) -> FastAPI:
 
     @app.get("/api/config")
     def get_config():
-        d = engine.cfg.to_dict()
-        d["digit_x_effective"] = engine.cfg.digit_x or default_digit_x(engine.cfg)
         with engine.lock:
+            d = engine.cfg.to_dict()
+            d["digit_x_effective"] = engine.cfg.digit_x or default_digit_x(engine.cfg)
+            d["segment_rects"] = list(engine.decoder.rects)
+            d["alignment_offsets"] = list(engine.decoder.alignment.offsets)
             f = engine.frame
+        d["debug_size"] = [FULL_W, FULL_H]
         d["frame_size"] = None if f is None else [f.shape[1], f.shape[0]]
         return d
 
     @app.post("/api/config")
     async def set_config(req: Request):
-        engine.update_config(await req.json())
+        try:
+            engine.update_config(await req.json())
+        except ValueError as exc:
+            return JSONResponse({"ok": False, "error": str(exc)}, 400)
         return {"ok": True}
 
     @app.post("/api/autofit")
@@ -208,12 +218,20 @@ def create_app(engine: Engine) -> FastAPI:
         return Response(buf.tobytes(), media_type="image/jpeg", headers={"Cache-Control": "no-store"})
 
     @app.get("/debug.jpg")
-    def debug():
+    def debug(plain: bool = False):
         with engine.lock:
             f, r = engine.frame, engine.reading
         if f is None:
             f = np.zeros((360, 640, 3), np.uint8)
-        img = engine.decoder.debug_image(f, r)
+        if plain:
+            # Browser zeichnet die beweglichen Messfelder selbst. Keine alten
+            # Rahmen ins Hintergrundbild einbrennen.
+            img = engine.decoder.warp(f)
+            if img is None:
+                img = np.zeros((FULL_H, FULL_W, 3), np.uint8)
+            img = cv2.resize(img, (FULL_W * 2, FULL_H * 2), interpolation=cv2.INTER_NEAREST)
+        else:
+            img = engine.decoder.debug_image(f, r)
         ok, buf = cv2.imencode(".jpg", img, [cv2.IMWRITE_JPEG_QUALITY, 85])
         return Response(buf.tobytes(), media_type="image/jpeg", headers={"Cache-Control": "no-store"})
 

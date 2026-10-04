@@ -1,0 +1,664 @@
+[
+  {
+    "file": "aufnahmen/tafel_20261004_072735.mkv",
+    "bytes": 450161395,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.489000",
+        "size": "450161395"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_073734.mkv",
+    "bytes": 450165193,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.002000",
+        "size": "450165193"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_074734.mkv",
+    "bytes": 31347933,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "41.681000",
+        "size": "31347933"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_074820.mkv",
+    "bytes": 450169429,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.353000",
+        "size": "450169429"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_075819.mkv",
+    "bytes": 450158405,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.002000",
+        "size": "450158405"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_080819.mkv",
+    "bytes": 101657705,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "135.400000",
+        "size": "101657705"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_081039.mkv",
+    "bytes": 450164199,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.669000",
+        "size": "450164199"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_082038.mkv",
+    "bytes": 450161469,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.001000",
+        "size": "450161469"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_083038.mkv",
+    "bytes": 450160384,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.001000",
+        "size": "450160384"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_084038.mkv",
+    "bytes": 450165037,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.001000",
+        "size": "450165037"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_085038.mkv",
+    "bytes": 200057041,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "266.561000",
+        "size": "200057041"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_085510.mkv",
+    "bytes": 450161433,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "601.018000",
+        "size": "450161433"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_090509.mkv",
+    "bytes": 450161373,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.002000",
+        "size": "450161373"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_091509.mkv",
+    "bytes": 450911533,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.982000",
+        "size": "450911533"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_092510.mkv",
+    "bytes": 450161482,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.002000",
+        "size": "450161482"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_093510.mkv",
+    "bytes": 450159707,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.002000",
+        "size": "450159707"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_094510.mkv",
+    "bytes": 450165208,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.002000",
+        "size": "450165208"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_095510.mkv",
+    "bytes": 450160682,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.001000",
+        "size": "450160682"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_100510.mkv",
+    "bytes": 450159865,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.002000",
+        "size": "450159865"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_101510.mkv",
+    "bytes": 450157815,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.002000",
+        "size": "450157815"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_102510.mkv",
+    "bytes": 450167478,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.001000",
+        "size": "450167478"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_103510.mkv",
+    "bytes": 450156537,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "600.001000",
+        "size": "450156537"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_104510.mkv",
+    "bytes": 398491648,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "size": "398491648"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105406.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105410.mkv",
+    "bytes": 3584000,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "size": "3584000"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105418.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105422.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105426.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105430.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105434.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105438.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105442.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105446.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105450.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105454.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105458.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105502.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105506.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105510.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105514.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105518.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105522.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105526.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105530.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105534.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105538.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105542.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_105546.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_114943.mkv",
+    "bytes": 2134016,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "size": "2134016"
+      }
+    },
+    "errors": ""
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_114950.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_114954.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_114958.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_115002.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_115004.mkv",
+    "bytes": 0,
+    "error": "Leere Datei nach Speicherplatzfehler; kein Videoinhalt"
+  },
+  {
+    "file": "aufnahmen/tafel_20261004_121039.mkv",
+    "bytes": 422864503,
+    "probe_exit": 0,
+    "probe": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "format": {
+        "duration": "564.183000",
+        "size": "422864503"
+      }
+    },
+    "errors": ""
+  }
+]

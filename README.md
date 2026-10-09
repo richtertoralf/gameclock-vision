@@ -1,5 +1,11 @@
 # gameclock-vision
 
+![Computer Vision](https://img.shields.io/badge/Computer_Vision-526EAF?style=flat-square)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+
 Erkennt Spielzeiten aus abgefilmten Sportuhren und stellt sie anderen Anwendungen über eine HTTP-API, WebSocket und Textausgabe bereit.
 
 Das Projekt entstand beim Einsatz an einer alten LED-Spieluhr während eines Blindenfußballturniers. Ein Netz vor der Anzeige, teilweise verdeckte Lämpchen und die Segmentdarstellung erschwerten die Erkennung mit Standard-OCR. Deshalb verwendet die Anwendung eine eigene Auswertung der einzelnen Siebensegmente und eine zeitliche Stabilisierung der Lesungen.
@@ -7,6 +13,8 @@ Das Projekt entstand beim Einsatz an einer alten LED-Spieluhr während eines Bli
 Ziel sind Anwendungen bei Sportarten wie Fußball, Basketball und Boxen. **Die aktuelle Implementierung unterstützt vierstellige Siebensegmentanzeigen im Format `MM:SS` und einen aufwärtszählenden Uhr-Tracker.** Countdown, zusätzliche Anzeigeformate und sportartspezifische Spielregeln sind noch nicht implementiert. Die getestete Anzeige stammt aus dem Blindenfußball; eine allgemeine Eignung für alle Sportuhren ist damit nicht belegt.
 
 Der Python-Paketname und Startbefehl bleiben für diese Version `tafeluhr`.
+
+**Erkennung und Technologien:** Eigene Siebensegmenterkennung mit OpenCV und NumPy sowie zeitliche Stabilisierung der abgelesenen Spielzeit. FFmpeg verarbeitet die Videoquellen; FastAPI stellt die Ergebnisse anderen Anwendungen bereit. Die Erkennung benötigt kein trainiertes ML-Modell.
 
 ## Funktionsweise
 

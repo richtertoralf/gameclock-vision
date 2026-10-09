@@ -41,3 +41,7 @@ Die [IBSA-Spielregeln 2026–2029](https://fileservice.aifdigitalsolutions.com/i
 ## Integritätsprüfung
 
 Alle acht Dateien wurden vor dem Upload vollständig mit FFmpeg decodiert. Die SHA-256-Prüfsummen im Manifest beziehen sich auf die tatsächlichen Videodateien, nicht auf ihre Git-LFS-Zeiger.
+
+## Lizenz
+
+Copyright 2026 Toralf Richter. Die acht eigenen Videoausschnitte und die eigene Dokumentation in diesem Verzeichnis sind unter der [Apache License 2.0](../LICENSE) veröffentlicht. Die Lizenz gilt für die tatsächlichen Videodateien, einschließlich ihrer Bereitstellung über Git LFS.

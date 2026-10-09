@@ -1,5 +1,6 @@
 # gameclock-vision
 
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue?style=flat-square)](LICENSE)
 ![Computer Vision](https://img.shields.io/badge/Computer_Vision-526EAF?style=flat-square)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 ![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=flat-square&logo=opencv&logoColor=white)
@@ -199,3 +200,9 @@ tafeluhr/static/          Kalibrieroberfläche
 tools/                    Tests, Testvideoerzeugung und Auswertungen
 docs/                     Audit und archivierte Turnierbefunde
 ```
+
+## Lizenz
+
+Copyright 2026 Toralf Richter.
+
+Der eigene Code, die Dokumentation und die eigenen Testvideos unter `testdata/videos/` sind unter der [Apache License 2.0](LICENSE) veröffentlicht. Dies umfasst ausdrücklich auch die über Git LFS bereitgestellten Videoausschnitte. Fremdkomponenten behalten ihre jeweiligen Lizenzen.

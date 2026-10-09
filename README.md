@@ -176,7 +176,7 @@ Ausgangspunkt dieses Repositorys ist Commit `840905f` vom 4. Oktober 2026 aus de
 
 Die vorhandenen Turnierunterlagen liegen unter [docs/turnier-2026-10-04](docs/turnier-2026-10-04/). Dort sind Kalibrierungen, Aufnahmeinventar und Diagnosebilder archiviert. Der [Turnierabschlussbericht](docs/turnierabschluss-2026-10-04.md) dokumentiert den damaligen Betrieb; der [Architekturaudit](docs/architektur-und-plausibilitaetsaudit-2026-10-04.md) beschreibt Grenzen und mögliche Weiterentwicklungen. Historische Angaben zu Sicherungsorten oder früheren Arbeitsständen sind keine aktuellen Installationsanweisungen.
 
-**Die echten Videoaufnahmen sind in diesem Stand noch nicht enthalten.** Die Auswahl der relevanten Ausschnitte und ihr Upload über Git LFS stehen noch aus. Die historische `.gitignore` schließt Videos und Aufnahmeordner aus; für den späteren LFS-Import muss dies gezielt angepasst werden. Referenzzeiten und die zum Ausschnitt passende Kalibrierung sollen zusammen mit den Videos aufgenommen werden.
+**Acht echte Videoausschnitte sind über Git LFS enthalten:** insgesamt 22:20 Minuten (rund 960 MiB), mit Stopps, Wiederanläufen, Minutenwechseln und Rücksetzungen. [Auswahl, Download und Kalibrierungen](testdata/README.md) sowie [Herkunft und Prüfsummen](testdata/manifest.json) sind dokumentiert. Nach dem Klonen `git lfs install` und `git lfs pull` ausführen. Die historischen Kalibrierungen sind teilweise Ausgangspunkte; vollständige Referenzzeiten pro Frame liegen noch nicht vor.
 
 ## Projektstruktur
 

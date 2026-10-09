@@ -7,3 +7,6 @@ aufnahmen/
 *.mkv
 .env
 .env.*
+
+# Ausgewählte reale Testclips werden über Git LFS versioniert.
+!testdata/videos/*.mkv

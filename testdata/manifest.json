@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "source_code_commit": "840905fa7928485e4eb5be1abb21b38aab6f1ac0",
+  "recording_date": "2026-10-04",
+  "extraction": "FFmpeg input seeking, stream copy, Matroska; original recordings unchanged. Requested offsets can differ from exact keyframe boundaries. All original streams retained; these source files contain video only.",
+  "annotation_status": "Visual selection and approximate event descriptions, not frame-by-frame ground truth. Event types such as timeout, goal or halftime are not established from the clock alone.",
+  "total_requested_duration_seconds": 1340,
+  "total_bytes": 1006373869,
+  "clips": [
+    {
+      "id": "01-early-stopped-net",
+      "file": "videos/01-early-stopped-net.mkv",
+      "source_file": "tafel_20261004_072735.mkv",
+      "requested_source_offset_seconds": 60,
+      "requested_duration_seconds": 30,
+      "split": "development",
+      "bytes": 22509021,
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "start_time": "0.000000"
+        }
+      ],
+      "sha256": "f4a86e78bdca5dd16ffb226da38f70090eefed3f75b0c86fada9f87c4c6f6d5f",
+      "validation": "complete video decode with ffmpeg -xerror succeeded",
+      "selection_reason": "Stehende Anzeige 15:47 hinter dem Netz; schwierige frühe Kameraposition.",
+      "calibration": "calibrations/tafeluhr-before-recalibration.json",
+      "calibration_status": "historical starting point; must be verified for this clip"
+    },
+    {
+      "id": "02-zero-stopped-outliers",
+      "file": "videos/02-zero-stopped-outliers.mkv",
+      "source_file": "tafel_20261004_095510.mkv",
+      "requested_source_offset_seconds": 60,
+      "requested_duration_seconds": 30,
+      "split": "development",
+      "bytes": 22517489,
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "start_time": "0.000000"
+        }
+      ],
+      "sha256": "646477cfd5d0401edcadb0625334a1835c90c4aaa20394887a18408cc79b1671",
+      "validation": "complete video decode with ffmpeg -xerror succeeded",
+      "selection_reason": "Stehende Anzeige 00:00; im früheren Prüflauf einzelne OCR-Ausreißer.",
+      "calibration": "calibrations/tafeluhr-before-recalibration.json",
+      "calibration_status": "historical starting point; must be verified for this clip"
+    },
+    {
+      "id": "03-late-running-minute-change",
+      "file": "videos/03-late-running-minute-change.mkv",
+      "source_file": "tafel_20261004_121039.mkv",
+      "requested_source_offset_seconds": 60,
+      "requested_duration_seconds": 120,
+      "split": "development",
+      "bytes": 90053507,
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "start_time": "0.000000"
+        }
+      ],
+      "sha256": "3fa4987f964846e3b0408104bad0ae109fe67f3a72a211c5969701be0c265778",
+      "validation": "complete video decode with ffmpeg -xerror succeeded",
+      "selection_reason": "Laufende Uhr ab etwa 16:49 mit Minutenwechseln; späte Kameraposition.",
+      "calibration": "calibrations/kalibrierung-final.json",
+      "calibration_status": "previously checked on first 30 seconds"
+    },
+    {
+      "id": "04-start-from-zero",
+      "file": "videos/04-start-from-zero.mkv",
+      "source_file": "tafel_20261004_085510.mkv",
+      "requested_source_offset_seconds": 0,
+      "requested_duration_seconds": 150,
+      "split": "development",
+      "bytes": 112572831,
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "start_time": "0.000000"
+        }
+      ],
+      "sha256": "ec0a2f2bf1f159850491d8fb9d3730f8029057c24a197d074c6c8d67d41dd704",
+      "validation": "complete video decode with ffmpeg -xerror succeeded",
+      "selection_reason": "00:00, Start und anschließender Minutenwechsel; zeitweise Verdeckung.",
+      "calibration": "calibrations/tafeluhr-before-recalibration.json",
+      "calibration_status": "historical starting point; must be verified for this clip"
+    },
+    {
+      "id": "05-long-stop-restart",
+      "file": "videos/05-long-stop-restart.mkv",
+      "source_file": "tafel_20261004_090509.mkv",
+      "requested_source_offset_seconds": 110,
+      "requested_duration_seconds": 230,
+      "split": "development",
+      "bytes": 172608108,
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "start_time": "0.000000"
+        }
+      ],
+      "sha256": "31267badb141e4de5434add97b5b739df0f168224eddc3a6439cb9ab543f6a82",
+      "validation": "complete video decode with ffmpeg -xerror succeeded",
+      "selection_reason": "Langer Stillstand bei 11:46 und anschließender Wiederanlauf.",
+      "calibration": "calibrations/tafeluhr-before-recalibration.json",
+      "calibration_status": "historical starting point; must be verified for this clip"
+    },
+    {
+      "id": "06-period-end-reset-restart",
+      "file": "videos/06-period-end-reset-restart.mkv",
+      "source_file": "tafel_20261004_091509.mkv",
+      "requested_source_offset_seconds": 130,
+      "requested_duration_seconds": 360,
+      "split": "development",
+      "bytes": 270166820,
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "start_time": "0.000000"
+        }
+      ],
+      "sha256": "103071d3abeeaa647bcdb4fbf6b0536a53875fd2eedc245ed3da96534d9a36d5",
+      "validation": "complete video decode with ffmpeg -xerror succeeded",
+      "selection_reason": "Anzeige erreicht etwa 20:00, wird auf 00:00 zurückgesetzt und startet erneut.",
+      "calibration": "calibrations/tafeluhr-before-recalibration.json",
+      "calibration_status": "historical starting point; must be verified for this clip"
+    },
+    {
+      "id": "07-stop-restart-net",
+      "file": "videos/07-stop-restart-net.mkv",
+      "source_file": "tafel_20261004_093510.mkv",
+      "requested_source_offset_seconds": 140,
+      "requested_duration_seconds": 180,
+      "split": "holdout",
+      "bytes": 135084332,
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "start_time": "0.000000"
+        }
+      ],
+      "sha256": "f34d58d1b5c42bdd4914e2ad6dcab16c409c432963b80fc92c74a527227283be",
+      "validation": "complete video decode with ffmpeg -xerror succeeded",
+      "selection_reason": "Kurzer Stillstand bei 12:35 und Wiederanlauf; Netz vor der Uhr.",
+      "calibration": "calibrations/tafeluhr-before-recalibration.json",
+      "calibration_status": "historical starting point; must be verified for this clip"
+    },
+    {
+      "id": "08-end-long-stop-reset",
+      "file": "videos/08-end-long-stop-reset.mkv",
+      "source_file": "tafel_20261004_094510.mkv",
+      "requested_source_offset_seconds": 210,
+      "requested_duration_seconds": 240,
+      "split": "holdout",
+      "bytes": 180861761,
+      "streams": [
+        {
+          "index": 0,
+          "codec_name": "h264",
+          "codec_type": "video",
+          "width": 1920,
+          "height": 1080,
+          "start_time": "0.000000"
+        }
+      ],
+      "sha256": "561a3048ce213d624057880cd6687fe13b3483e610ff33222baee5273b227327",
+      "validation": "complete video decode with ffmpeg -xerror succeeded",
+      "selection_reason": "Langer Stillstand nahe 19:42, Weiterlauf bis etwa 20:00 und Rücksetzung; zeitweise Verdeckung.",
+      "calibration": "calibrations/tafeluhr-before-recalibration.json",
+      "calibration_status": "historical starting point; must be verified for this clip"
+    }
+  ]
+}
